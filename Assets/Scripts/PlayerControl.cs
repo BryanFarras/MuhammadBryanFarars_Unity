@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
         playerAnimation = GetComponent<PlayerAnimation>(); // Ambil komponen PlayerAnimation
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         GetInput(); // Ambil input dari player
         Move(); // Gerakkan player

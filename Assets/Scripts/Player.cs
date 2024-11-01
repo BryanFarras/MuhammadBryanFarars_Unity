@@ -10,28 +10,30 @@ public class Player : MonoBehaviour
     
     void Awake()
     {
-        if (Instance == null){
+        if (Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else if (Instance != this){
+        else if (Instance != this)
+        {
             Destroy(gameObject);
         }
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        
+        playerMovement = GetComponent<PlayerMovement>();
+        animator = GameObject.Find("EngineEffect").GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        
+        playerMovement.Move();
     }
 
     void LateUpdate()
     {
-
+        animator.SetBool("IsMoving", playerMovement.IsMoving());
     }
 }
