@@ -30,12 +30,13 @@ public class PlayerControl : MonoBehaviour
         // Panggil animasi setiap kali ada perubahan input
         if (playerAnimation != null)
         {
-            playerAnimation.PlayMovementAnimation(input.x, input.y);
+            bool isMoving = input.x != 0 || input.y != 0;  // Cek jika ada input
+            playerAnimation.PlayMovementAnimation(isMoving); // Panggil animasi sesuai status pergerakan
         }
     }
 
     // Fungsi untuk menggerakkan player berdasarkan input
-    private void Move()
+    public void Move()
     {
         Vector3 targetPos = transform.position + (Vector3)(input * moveSpeed * Time.deltaTime);
 
@@ -50,5 +51,10 @@ public class PlayerControl : MonoBehaviour
     private bool IsSolid(Vector3 targetPos)
     {
         return Physics2D.OverlapCircle(targetPos, 0.1f, solidObjectsLayer) != null;
+    }
+
+    public bool IsMoving()
+    {
+        return input.x != 0 || input.y != 0;  // True jika ada input gerak
     }
 }

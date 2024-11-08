@@ -11,14 +11,16 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>(); // Ambil komponen Animator
     }
 
-    // Fungsi untuk mengatur animasi berdasarkan input
-    public void PlayMovementAnimation(float moveX, float moveY)
+    // Fungsi untuk mengatur animasi berdasarkan status pergerakan
+    public void PlayMovementAnimation(bool isMoving)
     {
-        animator.SetFloat("moveX", moveX);
-        animator.SetFloat("moveY", moveY);
-
-        // Atur isMoving berdasarkan ada atau tidaknya input
-        bool isMoving = moveX != 0 || moveY != 0;
-        animator.SetBool("isMoving", isMoving);
+        if (isMoving)
+        {
+            animator.Play("Moving"); // Mainkan animasi Boost saat bergerak
+        }
+        else
+        {
+            animator.Play("Idle"); // Mainkan animasi Idle saat berhenti
+        }
     }
 }

@@ -55,4 +55,9 @@ public class PlayerMovement : MonoBehaviour
     {
         return rb.velocity != Vector2.zero;
     }
+
+    public void MoveBound()
+    {
+        
+    }
 }

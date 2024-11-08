@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{  
+{
     public static Player Instance;
-    PlayerMovement playerMovement;
-    Animator animator;
-    
+    private PlayerControl playerControl;
+    private PlayerAnimation playerAnimation;
+
     void Awake()
     {
         if (Instance == null)
@@ -23,17 +23,42 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        animator = GameObject.Find("EngineEffect").GetComponent<Animator>();
+        // Ambil komponen PlayerControl pada GameObject yang sama
+        playerControl = GetComponent<PlayerControl>();
+        
+        // Cari GameObject "EngineEffect" dan ambil komponen PlayerAnimation dari sana
+        GameObject engineEffect = GameObject.Find("EngineEffect");
+        if (engineEffect != null)
+        {
+            playerAnimation = engineEffect.GetComponent<PlayerAnimation>();
+        }
+
+        // Cek apakah PlayerAnimation ditemukan, jika tidak tampilkan pesan error
+        if (playerAnimation == null)
+        {
+            Debug.LogError("PlayerAnimation component is missing from EngineEffect GameObject!");
+        }
+
+        if (playerControl == null)
+        {
+            Debug.LogError("PlayerControl component is missing from this GameObject!");
+        }
     }
 
     void FixedUpdate()
     {
-        playerMovement.Move();
+        if (playerControl != null)
+        {
+            playerControl.Move(); // Panggil fungsi Move() dari PlayerControl
+        }
     }
 
     void LateUpdate()
     {
-        animator.SetBool("IsMoving", playerMovement.IsMoving());
+        if (playerAnimation != null && playerControl != null)
+        {
+            // Update animasi berdasarkan status pergerakan
+            playerAnimation.PlayMovementAnimation(playerControl.IsMoving());
+        }
     }
 }
